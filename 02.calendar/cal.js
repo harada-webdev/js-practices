@@ -17,8 +17,10 @@ console.log("日 月 火 水 木 金 土");
 process.stdout.write("   ".repeat(firstDay.getDay()));
 for (let day = firstDay; day <= lastDay; day.setDate(day.getDate() + 1)) {
   const formattedDay = day.getDate().toString().padStart(2);
-  process.stdout.write(
-    day.getDay() === 6 ? `${formattedDay}\n` : `${formattedDay} `,
-  );
+  if (day.getDay() === 6 && day < lastDay) {
+    process.stdout.write(`${formattedDay}\n`);
+  } else {
+    process.stdout.write(`${formattedDay} `);
+  }
 }
 console.log(`\n`);
