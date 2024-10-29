@@ -20,7 +20,7 @@ for (let day = firstDay; day <= lastDay; day.setDate(day.getDate() + 1)) {
   if (day.getDay() === 6 || day.getDate() === lastDay.getDate()) {
     console.log(formattedDay);
   } else {
-    process.stdout.write(formattedDay + " ");
+    process.stdout.write(`${formattedDay} `);
   }
 }
 console.log();
