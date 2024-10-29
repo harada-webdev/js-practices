@@ -9,12 +9,10 @@ const argv = minimist(process.argv.slice(2), {
     m: today.getMonth() + 1,
   },
 });
-const year = argv.y;
-const month = argv.m;
-const firstDay = new Date(year, month - 1);
-const lastDay = new Date(year, month, 0);
+const firstDay = new Date(argv.y, argv.m - 1);
+const lastDay = new Date(argv.y, argv.m, 0);
 
-console.log(`${"".padStart(6)}${month}月 ${year}`);
+console.log(`${"".padStart(6)}${argv.m}月 ${argv.y}`);
 console.log("日 月 火 水 木 金 土");
 process.stdout.write("".padStart(firstDay.getDay() * 3));
 for (let day = firstDay; day <= lastDay; day.setDate(day.getDate() + 1)) {
