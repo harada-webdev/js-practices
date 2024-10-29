@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import minimist from "minimist";
+
 const argv = minimist(process.argv.slice(2), {
   default: {
     y: new Date().getFullYear(),
