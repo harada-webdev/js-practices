@@ -16,7 +16,11 @@ console.log(`${" ".repeat(6)}${argv.m}月 ${argv.y}`);
 console.log("日 月 火 水 木 金 土");
 process.stdout.write(" ".repeat(firstDay.getDay() * 3));
 for (let day = firstDay; day <= lastDay; day.setDate(day.getDate() + 1)) {
-  process.stdout.write(`${day.getDate().toString().padStart(2).padEnd(3)}`);
-  process.stdout.write(day.getDay() === 6 && day < lastDay ? `\n` : "");
+  const formattedDay = day.getDate().toString().padStart(2);
+  if (day.getDay() === 6 || day.getDate() === lastDay.getDate()) {
+    console.log(formattedDay);
+  } else {
+    process.stdout.write(formattedDay.padEnd(3));
+  }
 }
-console.log(`\n`);
+console.log();
