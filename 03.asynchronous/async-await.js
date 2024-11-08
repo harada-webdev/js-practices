@@ -41,5 +41,5 @@ import { db, runQueryPromise, getQueryPromise } from "./promise-functions.js";
     console.error(err.message);
   }
 
-  runQueryPromise(db, "DROP TABLE books");
+  await runQueryPromise(db, "DROP TABLE books");
 })();
