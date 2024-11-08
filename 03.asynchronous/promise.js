@@ -7,13 +7,9 @@ runQueryPromise(
   db,
   "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
 )
-  .then(() => {
-    return runQueryPromise(
-      db,
-      "INSERT INTO books (title) VALUES (?)",
-      "Rubyの本",
-    );
-  })
+  .then(() =>
+    runQueryPromise(db, "INSERT INTO books (title) VALUES (?)", "Rubyの本"),
+  )
   .then((result) => {
     console.log(`id: ${result.lastID}`);
     return getQueryPromise(
@@ -33,9 +29,7 @@ runQueryPromise(
   db,
   "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
 )
-  .then(() => {
-    return runQueryPromise(db, "INSERT INTO books (title) VALUES (?)");
-  })
+  .then(() => runQueryPromise(db, "INSERT INTO books (title) VALUES (?)"))
   .catch((err) => {
     console.error(err.message);
     return getQueryPromise(db, "SELECT body FROM books WHERE id = ?", 1);
