@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { db, runQueryPromise, getQueryPromise } from "./promise-functions.js";
 import timers from "timers/promises";
+import { db, runQueryPromise, getQueryPromise } from "./promise-functions.js";
 
 runQueryPromise(
   db,
