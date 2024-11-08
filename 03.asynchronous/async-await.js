@@ -32,13 +32,21 @@ await runQueryPromise(
 try {
   await runQueryPromise(db.prepare("INSERT INTO books (title) VALUES (?)"));
 } catch (err) {
-  console.error(err.message);
+  if (err.code === "SQLITE_CONSTRAINT") {
+    console.error(err.message);
+  } else {
+    throw err;
+  }
 }
 
 try {
   await getQueryPromise(db, "SELECT body FROM books WHERE id = ?", 1);
 } catch (err) {
-  console.error(err.message);
+  if (err.code === "SQLITE_ERROR") {
+    console.error(err.message);
+  } else {
+    throw err;
+  }
 }
 
 await runQueryPromise(db.prepare("DROP TABLE books"));
