@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
 import sqlite3 from "sqlite3";
-import { runQueryPromise, getQueryPromise } from "./promise-functions.js";
+import { runStatementPromise, getQueryPromise } from "./promise-functions.js";
 
 const db = new sqlite3.Database(":memory:");
 
-await runQueryPromise(
+await runStatementPromise(
   db.prepare(
     "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   ),
 );
 
-const result = await runQueryPromise(
+const result = await runStatementPromise(
   db.prepare("INSERT INTO books (title) VALUES (?)"),
   "JavaScriptの本",
 );
@@ -24,16 +24,16 @@ const record = await getQueryPromise(
 );
 console.log(record);
 
-await runQueryPromise(db.prepare("DROP TABLE books"));
+await runStatementPromise(db.prepare("DROP TABLE books"));
 
-await runQueryPromise(
+await runStatementPromise(
   db.prepare(
     "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   ),
 );
 
 try {
-  await runQueryPromise(db.prepare("INSERT INTO books (title) VALUES (?)"));
+  await runStatementPromise(db.prepare("INSERT INTO books (title) VALUES (?)"));
 } catch (err) {
   if (err.code === "SQLITE_CONSTRAINT") {
     console.error(err.message);
@@ -52,4 +52,4 @@ try {
   }
 }
 
-await runQueryPromise(db.prepare("DROP TABLE books"));
+await runStatementPromise(db.prepare("DROP TABLE books"));

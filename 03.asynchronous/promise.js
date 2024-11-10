@@ -2,17 +2,17 @@
 
 import timers from "timers/promises";
 import sqlite3 from "sqlite3";
-import { runQueryPromise, getQueryPromise } from "./promise-functions.js";
+import { runStatementPromise, getQueryPromise } from "./promise-functions.js";
 
 const db = new sqlite3.Database(":memory:");
 
-runQueryPromise(
+runStatementPromise(
   db.prepare(
     "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   ),
 )
   .then(() =>
-    runQueryPromise(
+    runStatementPromise(
       db.prepare("INSERT INTO books (title) VALUES (?)"),
       "Rubyの本",
     ),
@@ -27,18 +27,18 @@ runQueryPromise(
   })
   .then((record) => {
     console.log(record);
-    runQueryPromise(db.prepare("DROP TABLE books"));
+    runStatementPromise(db.prepare("DROP TABLE books"));
   });
 
 await timers.setTimeout(100);
 
-runQueryPromise(
+runStatementPromise(
   db.prepare(
     "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   ),
 )
   .then(() =>
-    runQueryPromise(db.prepare("INSERT INTO books (title) VALUES (?)")),
+    runStatementPromise(db.prepare("INSERT INTO books (title) VALUES (?)")),
   )
   .catch((err) => {
     console.error(err.message);
@@ -46,5 +46,5 @@ runQueryPromise(
   })
   .catch((err) => {
     console.error(err.message);
-    runQueryPromise(db.prepare("DROP TABLE books"));
+    runStatementPromise(db.prepare("DROP TABLE books"));
   });

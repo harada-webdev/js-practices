@@ -1,4 +1,4 @@
-export const runQueryPromise = (statement, params) =>
+export const runStatementPromise = (statement, params) =>
   new Promise((resolve, reject) => {
     statement.run(params, (err) => {
       if (err) {
