@@ -2,7 +2,10 @@
 
 import timers from "timers/promises";
 import sqlite3 from "sqlite3";
-import { runStatementPromise, getQueryPromise } from "./promise-functions.js";
+import {
+  runStatementPromise,
+  getQueryPromise,
+} from "./db-promise-functions.js";
 
 const db = new sqlite3.Database(":memory:");
 
