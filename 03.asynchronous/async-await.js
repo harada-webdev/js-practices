@@ -38,7 +38,7 @@ await runStatementPromise(
 try {
   await runStatementPromise(db.prepare("INSERT INTO books (title) VALUES (?)"));
 } catch (err) {
-  if (err.code === "SQLITE_CONSTRAINT") {
+  if (err instanceof Error && err.code === "SQLITE_CONSTRAINT") {
     console.error(err.message);
   } else {
     throw err;
@@ -48,7 +48,7 @@ try {
 try {
   await getQueryPromise(db, "SELECT body FROM books WHERE id = ?", 1);
 } catch (err) {
-  if (err.code === "SQLITE_ERROR") {
+  if (err instanceof Error && err.code === "SQLITE_ERROR") {
     console.error(err.message);
   } else {
     throw err;
