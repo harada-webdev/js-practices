@@ -30,7 +30,7 @@ runStatementPromise(
   })
   .then((record) => {
     console.log(record);
-    runStatementPromise(db.prepare("DROP TABLE books"));
+    return runStatementPromise(db.prepare("DROP TABLE books"));
   });
 
 await timers.setTimeout(100);
@@ -49,5 +49,5 @@ runStatementPromise(
   })
   .catch((err) => {
     console.error(err.message);
-    runStatementPromise(db.prepare("DROP TABLE books"));
+    return runStatementPromise(db.prepare("DROP TABLE books"));
   });
