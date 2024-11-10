@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
 import timers from "timers/promises";
-import { db, runQueryPromise, getQueryPromise } from "./promise-functions.js";
+import sqlite3 from "sqlite3";
+import { runQueryPromise, getQueryPromise } from "./promise-functions.js";
+
+const db = new sqlite3.Database(":memory:");
 
 runQueryPromise(
   db.prepare(
