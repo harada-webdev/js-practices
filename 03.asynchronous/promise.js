@@ -3,26 +3,26 @@
 import timers from "timers/promises";
 import sqlite3 from "sqlite3";
 import {
-  runStatementPromise,
-  getDatabasePromise,
+  runFromStatementPromise,
+  getFromDatabasePromise,
 } from "./db-promise-functions.js";
 
 const db = new sqlite3.Database(":memory:");
 
-runStatementPromise(
+runFromStatementPromise(
   db.prepare(
     "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   ),
 )
   .then(() =>
-    runStatementPromise(
+    runFromStatementPromise(
       db.prepare("INSERT INTO books (title) VALUES (?)"),
       "Rubyの本",
     ),
   )
   .then((result) => {
     console.log(`id: ${result.lastID}`);
-    return getDatabasePromise(
+    return getFromDatabasePromise(
       db,
       "SELECT id, title FROM books WHERE id = ?",
       result.lastID,
@@ -30,24 +30,24 @@ runStatementPromise(
   })
   .then((record) => {
     console.log(record);
-    return runStatementPromise(db.prepare("DROP TABLE books"));
+    return runFromStatementPromise(db.prepare("DROP TABLE books"));
   });
 
 await timers.setTimeout(100);
 
-runStatementPromise(
+runFromStatementPromise(
   db.prepare(
     "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   ),
 )
   .then(() =>
-    runStatementPromise(db.prepare("INSERT INTO books (title) VALUES (?)")),
+    runFromStatementPromise(db.prepare("INSERT INTO books (title) VALUES (?)")),
   )
   .catch((err) => {
     console.error(err.message);
-    return getDatabasePromise(db, "SELECT body FROM books WHERE id = ?", 1);
+    return getFromDatabasePromise(db, "SELECT body FROM books WHERE id = ?", 1);
   })
   .catch((err) => {
     console.error(err.message);
-    return runStatementPromise(db.prepare("DROP TABLE books"));
+    return runFromStatementPromise(db.prepare("DROP TABLE books"));
   });

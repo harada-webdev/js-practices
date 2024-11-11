@@ -1,4 +1,4 @@
-export const runStatementPromise = (statement, params) =>
+export const runFromStatementPromise = (statement, params) =>
   new Promise((resolve, reject) => {
     statement.run(params, (err) => {
       if (err) {
@@ -9,7 +9,7 @@ export const runStatementPromise = (statement, params) =>
     });
   });
 
-export const getDatabasePromise = (db, query, params) =>
+export const getFromDatabasePromise = (db, query, params) =>
   new Promise((resolve, reject) => {
     db.get(query, params, (err, record) => {
       if (err) {

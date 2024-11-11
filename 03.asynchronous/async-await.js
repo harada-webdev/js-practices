@@ -2,41 +2,43 @@
 
 import sqlite3 from "sqlite3";
 import {
-  runStatementPromise,
-  getDatabasePromise,
+  runFromStatementPromise,
+  getFromDatabasePromise,
 } from "./db-promise-functions.js";
 
 const db = new sqlite3.Database(":memory:");
 
-await runStatementPromise(
+await runFromStatementPromise(
   db.prepare(
     "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   ),
 );
 
-const result = await runStatementPromise(
+const result = await runFromStatementPromise(
   db.prepare("INSERT INTO books (title) VALUES (?)"),
   "JavaScriptの本",
 );
 console.log(`id: ${result.lastID}`);
 
-const record = await getDatabasePromise(
+const record = await getFromDatabasePromise(
   db,
   "SELECT id, title FROM books WHERE id = ?",
   result.lastID,
 );
 console.log(record);
 
-await runStatementPromise(db.prepare("DROP TABLE books"));
+await runFromStatementPromise(db.prepare("DROP TABLE books"));
 
-await runStatementPromise(
+await runFromStatementPromise(
   db.prepare(
     "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   ),
 );
 
 try {
-  await runStatementPromise(db.prepare("INSERT INTO books (title) VALUES (?)"));
+  await runFromStatementPromise(
+    db.prepare("INSERT INTO books (title) VALUES (?)"),
+  );
 } catch (err) {
   if (err instanceof Error && err.code === "SQLITE_CONSTRAINT") {
     console.error(err.message);
@@ -46,7 +48,7 @@ try {
 }
 
 try {
-  await getDatabasePromise(db, "SELECT body FROM books WHERE id = ?", 1);
+  await getFromDatabasePromise(db, "SELECT body FROM books WHERE id = ?", 1);
 } catch (err) {
   if (err instanceof Error && err.code === "SQLITE_ERROR") {
     console.error(err.message);
@@ -55,4 +57,4 @@ try {
   }
 }
 
-await runStatementPromise(db.prepare("DROP TABLE books"));
+await runFromStatementPromise(db.prepare("DROP TABLE books"));
