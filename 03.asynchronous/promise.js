@@ -4,7 +4,7 @@ import timers from "timers/promises";
 import sqlite3 from "sqlite3";
 import {
   runFromStatementPromise,
-  getFromDatabasePromise,
+  getFromTablePromise,
 } from "./db-promise-functions.js";
 
 const db = new sqlite3.Database(":memory:");
@@ -22,7 +22,7 @@ runFromStatementPromise(
   )
   .then((result) => {
     console.log(`id: ${result.lastID}`);
-    return getFromDatabasePromise(
+    return getFromTablePromise(
       db,
       "SELECT id, title FROM books WHERE id = ?",
       result.lastID,
@@ -45,7 +45,7 @@ runFromStatementPromise(
   )
   .catch((err) => {
     console.error(err.message);
-    return getFromDatabasePromise(db, "SELECT body FROM books WHERE id = ?", 1);
+    return getFromTablePromise(db, "SELECT body FROM books WHERE id = ?", 1);
   })
   .catch((err) => {
     console.error(err.message);

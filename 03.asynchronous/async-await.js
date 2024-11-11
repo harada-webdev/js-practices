@@ -3,7 +3,7 @@
 import sqlite3 from "sqlite3";
 import {
   runFromStatementPromise,
-  getFromDatabasePromise,
+  getFromTablePromise,
 } from "./db-promise-functions.js";
 
 const db = new sqlite3.Database(":memory:");
@@ -20,7 +20,7 @@ const result = await runFromStatementPromise(
 );
 console.log(`id: ${result.lastID}`);
 
-const record = await getFromDatabasePromise(
+const record = await getFromTablePromise(
   db,
   "SELECT id, title FROM books WHERE id = ?",
   result.lastID,
@@ -48,7 +48,7 @@ try {
 }
 
 try {
-  await getFromDatabasePromise(db, "SELECT body FROM books WHERE id = ?", 1);
+  await getFromTablePromise(db, "SELECT body FROM books WHERE id = ?", 1);
 } catch (err) {
   if (err instanceof Error && err.code === "SQLITE_ERROR") {
     console.error(err.message);

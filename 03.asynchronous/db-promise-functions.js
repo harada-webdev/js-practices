@@ -9,7 +9,7 @@ export const runFromStatementPromise = (statement, params) =>
     });
   });
 
-export const getFromDatabasePromise = (db, query, params) =>
+export const getFromTablePromise = (db, query, params) =>
   new Promise((resolve, reject) => {
     db.get(query, params, (err, record) => {
       if (err) {
