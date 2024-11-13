@@ -1,4 +1,4 @@
-export const runFromStatementPromise = (statement, params) =>
+export const statementRunPromise = (statement, params) =>
   new Promise((resolve, reject) => {
     statement.run(params, (err) => {
       if (err) {

@@ -3,19 +3,19 @@
 import timers from "timers/promises";
 import sqlite3 from "sqlite3";
 import {
-  runFromStatementPromise,
+  statementRunPromise,
   getFromTablePromise,
 } from "./db-promise-functions.js";
 
 const db = new sqlite3.Database(":memory:");
 
-runFromStatementPromise(
+statementRunPromise(
   db.prepare(
     "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   ),
 )
   .then(() =>
-    runFromStatementPromise(
+    statementRunPromise(
       db.prepare("INSERT INTO books (title) VALUES (?)"),
       "Rubyの本",
     ),
@@ -30,18 +30,18 @@ runFromStatementPromise(
   })
   .then((record) => {
     console.log(record);
-    return runFromStatementPromise(db.prepare("DROP TABLE books"));
+    return statementRunPromise(db.prepare("DROP TABLE books"));
   });
 
 await timers.setTimeout(100);
 
-runFromStatementPromise(
+statementRunPromise(
   db.prepare(
     "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE)",
   ),
 )
   .then(() =>
-    runFromStatementPromise(db.prepare("INSERT INTO books (title) VALUES (?)")),
+    statementRunPromise(db.prepare("INSERT INTO books (title) VALUES (?)")),
   )
   .catch((err) => {
     console.error(err.message);
@@ -49,5 +49,5 @@ runFromStatementPromise(
   })
   .catch((err) => {
     console.error(err.message);
-    return runFromStatementPromise(db.prepare("DROP TABLE books"));
+    return statementRunPromise(db.prepare("DROP TABLE books"));
   });
