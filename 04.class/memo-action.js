@@ -1,4 +1,5 @@
 import readline from "readline";
+import enquirer from "enquirer";
 
 export class MemoAction {
   static async save(db) {
@@ -29,6 +30,13 @@ export class MemoAction {
     });
   };
 
+  static showDetail = async (db) => {
+    const memos = await this.#getAll(db);
+    const list = await this.#selection(memos, "show");
+    const selectedMemo = await enquirer.prompt(list);
+    console.log(selectedMemo.show.body);
+  };
+
   static #input() {
     return new Promise((resolve, reject) => {
       const rl = readline.createInterface({
@@ -57,5 +65,24 @@ export class MemoAction {
       process.exit(0);
     }
     return memos;
+  };
+
+  static #selection = async (memos, purpose) => {
+    return {
+      type: "select",
+      name: `${purpose}`,
+      message: "表示するメモを選んでください",
+      choices: memos.map((memo) => ({
+        message: memo.body.split("\n")[0] || "無題",
+        name: memo.body.split("\n")[0] || "無題",
+        value: memo,
+      })),
+      footer() {
+        return "\n" + memos[this.index].body;
+      },
+      result() {
+        return this.focused.value;
+      },
+    };
   };
 }

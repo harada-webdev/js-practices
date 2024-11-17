@@ -19,6 +19,8 @@ class Memo {
     const args = minimist(process.argv.slice(2));
     if (args.l) {
       await MemoAction.showList(this.db);
+    } else if (args.r) {
+      await MemoAction.showDetail(this.db);
     } else {
       await MemoAction.save(this.db);
     }
