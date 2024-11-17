@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import minimist from "minimist";
 import { MemoDatabase } from "./memo-database.js";
 import { MemoAction } from "./memo-action.js";
 
@@ -15,7 +16,12 @@ class Memo {
   }
 
   async #runMemoAction() {
-    await MemoAction.save(this.db);
+    const args = minimist(process.argv.slice(2));
+    if (args.l) {
+      await MemoAction.showList(this.db);
+    } else {
+      await MemoAction.save(this.db);
+    }
   }
 }
 

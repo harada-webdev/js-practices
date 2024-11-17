@@ -37,4 +37,16 @@ export class MemoDatabase {
       });
     });
   };
+
+  getAll = (query, params) => {
+    return new Promise((resolve, reject) => {
+      this.db.all(query, params, (err, records) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(records);
+        }
+      });
+    });
+  };
 }

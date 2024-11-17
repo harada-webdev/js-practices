@@ -22,6 +22,13 @@ export class MemoAction {
     console.log("メモが保存されました");
   }
 
+  static showList = async (db) => {
+    const memos = await this.#getAll(db);
+    memos.forEach((memo) => {
+      console.log(memo.body.split("\n")[0]);
+    });
+  };
+
   static #input() {
     return new Promise((resolve, reject) => {
       const rl = readline.createInterface({
@@ -42,4 +49,13 @@ export class MemoAction {
       });
     });
   }
+
+  static #getAll = async (db) => {
+    const memos = await db.getAll("SELECT * FROM memos");
+    if (memos.length === 0) {
+      console.log("保存されているメモはありません。");
+      process.exit(0);
+    }
+    return memos;
+  };
 }
