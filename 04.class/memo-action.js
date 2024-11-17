@@ -37,6 +37,14 @@ export class MemoAction {
     console.log(selectedMemo.show.body);
   };
 
+  static delete = async (db) => {
+    const memos = await this.#getAll(db);
+    const list = await this.#selection(memos, "delete");
+    const selectedMemo = await enquirer.prompt(list);
+    await db.run("DELETE FROM memos WHERE id = ?", selectedMemo.delete.id);
+    console.log("メモが削除されました");
+  };
+
   static #input() {
     return new Promise((resolve, reject) => {
       const rl = readline.createInterface({
@@ -71,7 +79,10 @@ export class MemoAction {
     return {
       type: "select",
       name: `${purpose}`,
-      message: "表示するメモを選んでください",
+      message:
+        purpose === "show"
+          ? "表示するメモを選んでください"
+          : "削除するメモを選んでください",
       choices: memos.map((memo) => ({
         message: memo.body.split("\n")[0] || "無題",
         name: memo.body.split("\n")[0] || "無題",

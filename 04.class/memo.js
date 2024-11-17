@@ -21,6 +21,8 @@ class Memo {
       await MemoAction.showList(this.db);
     } else if (args.r) {
       await MemoAction.showDetail(this.db);
+    } else if (args.d) {
+      await MemoAction.delete(this.db);
     } else {
       await MemoAction.save(this.db);
     }
