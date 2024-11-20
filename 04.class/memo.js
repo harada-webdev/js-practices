@@ -29,4 +29,4 @@ class Memo {
   }
 }
 
-new Memo().run();
+await new Memo().run();
