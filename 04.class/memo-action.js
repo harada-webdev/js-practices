@@ -23,27 +23,27 @@ export default class MemoAction {
     console.log("メモが保存されました");
   }
 
-  static showList = async (db) => {
+  static async showList(db) {
     const memos = await this.#getAll(db);
     memos.forEach((memo) => {
       console.log(memo.body.split("\n")[0]);
     });
-  };
+  }
 
-  static showDetail = async (db) => {
+  static async showDetail(db) {
     const memos = await this.#getAll(db);
     const memoSelection = await this.#selection(memos, "show");
     const selectedMemo = await enquirer.prompt(memoSelection);
     console.log(selectedMemo.show.body);
-  };
+  }
 
-  static delete = async (db) => {
+  static async delete(db) {
     const memos = await this.#getAll(db);
     const memoSelection = await this.#selection(memos, "delete");
     const selectedMemo = await enquirer.prompt(memoSelection);
     await db.run("DELETE FROM memos WHERE id = ?", selectedMemo.delete.id);
     console.log("メモが削除されました");
-  };
+  }
 
   static #input() {
     return new Promise((resolve, reject) => {
@@ -66,16 +66,16 @@ export default class MemoAction {
     });
   }
 
-  static #getAll = async (db) => {
+  static async #getAll(db) {
     const memos = await db.getAll("SELECT * FROM memos ORDER BY id");
     if (memos.length === 0) {
       console.log("保存されているメモはありません。");
       process.exit(0);
     }
     return memos;
-  };
+  }
 
-  static #selection = async (memos, purpose) => {
+  static async #selection(memos, purpose) {
     return {
       type: "select",
       name: purpose,
@@ -95,5 +95,5 @@ export default class MemoAction {
         return this.focused.value;
       },
     };
-  };
+  }
 }

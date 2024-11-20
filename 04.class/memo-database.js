@@ -5,13 +5,13 @@ export default class MemoDatabase {
     this.db = new sqlite3.Database("memo.db");
   }
 
-  createTable = async () => {
+  async createTable() {
     await this.run(
       "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, body TEXT NOT NULL)",
     );
-  };
+  }
 
-  close = () => {
+  close() {
     return new Promise((resolve, reject) => {
       this.db.close((err) => {
         if (err) {
@@ -21,9 +21,9 @@ export default class MemoDatabase {
         }
       });
     });
-  };
+  }
 
-  run = (query, params) => {
+  run(query, params) {
     return new Promise((resolve, reject) => {
       this.db.run(query, params, (err) => {
         if (err) {
@@ -33,9 +33,9 @@ export default class MemoDatabase {
         }
       });
     });
-  };
+  }
 
-  getAll = (query, params) => {
+  getAll(query, params) {
     return new Promise((resolve, reject) => {
       this.db.all(query, params, (err, records) => {
         if (err) {
@@ -45,5 +45,5 @@ export default class MemoDatabase {
         }
       });
     });
-  };
+  }
 }
