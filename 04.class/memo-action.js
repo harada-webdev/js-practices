@@ -67,7 +67,7 @@ export class MemoAction {
   }
 
   static #getAll = async (db) => {
-    const memos = await db.getAll("SELECT * FROM memos");
+    const memos = await db.getAll("SELECT * FROM memos ORDER BY id");
     if (memos.length === 0) {
       console.log("保存されているメモはありません。");
       process.exit(0);
