@@ -75,7 +75,7 @@ export default class MemoAction {
     return memos;
   }
 
-  static async #selection(memos, purpose) {
+  static #selection(memos, purpose) {
     return {
       type: "select",
       name: purpose,
