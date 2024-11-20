@@ -6,12 +6,9 @@ export default class MemoDatabase {
   }
 
   createTable = async () => {
-    await this.run(`
-        CREATE TABLE IF NOT EXISTS memos (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          body TEXT NOT NULL
-        );
-      `);
+    await this.run(
+      "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, body TEXT NOT NULL)",
+    );
   };
 
   close = () => {
