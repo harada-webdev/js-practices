@@ -1,7 +1,7 @@
 import readline from "readline";
 import enquirer from "enquirer";
 
-export class MemoAction {
+export default class MemoAction {
   static async save(db) {
     if (process.stdin.isTTY) {
       console.log("メモを入力してください:");

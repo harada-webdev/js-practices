@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 
-export class MemoDatabase {
+export default class MemoDatabase {
   constructor() {
     this.db = new sqlite3.Database("memo.db");
   }
