@@ -32,15 +32,33 @@ export default class MemoAction {
 
   static async showDetail(db) {
     const memos = await this.#getAll(db);
-    const memoSelection = await this.#selection(memos, "show");
-    const selectedMemo = await enquirer.prompt(memoSelection);
+    let memoSelection = await this.#selection(memos, "show");
+    let selectedMemo = "";
+    try {
+      selectedMemo = await enquirer.prompt(memoSelection);
+    } catch (error) {
+      if (error === "") {
+        process.exit(130);
+      } else {
+        throw error;
+      }
+    }
     console.log(selectedMemo.show.body);
   }
 
   static async delete(db) {
     const memos = await this.#getAll(db);
     const memoSelection = await this.#selection(memos, "delete");
-    const selectedMemo = await enquirer.prompt(memoSelection);
+    let selectedMemo = "";
+    try {
+      selectedMemo = await enquirer.prompt(memoSelection);
+    } catch (error) {
+      if (error === "") {
+        process.exit(130);
+      } else {
+        throw error;
+      }
+    }
     await db.run("DELETE FROM memos WHERE id = ?", selectedMemo.delete.id);
     console.log("メモが削除されました");
   }
