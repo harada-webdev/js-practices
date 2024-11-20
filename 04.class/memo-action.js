@@ -78,7 +78,7 @@ export class MemoAction {
   static #selection = async (memos, purpose) => {
     return {
       type: "select",
-      name: `${purpose}`,
+      name: purpose,
       message:
         purpose === "show"
           ? "表示するメモを選んでください"
