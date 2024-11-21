@@ -2,30 +2,27 @@
 
 import minimist from "minimist";
 import MemoAction from "./memo-action.js";
-import MemoDatabase from "./memo-database.js";
 
 class Memo {
   constructor() {
-    this.db = new MemoDatabase();
+    this.memoAction = new MemoAction();
   }
 
   async run() {
-    await this.db.createTable();
-    await this.#runMemoAction();
-    await this.db.close();
-  }
+    await this.memoAction.start();
 
-  async #runMemoAction() {
     const args = minimist(process.argv.slice(2));
     if (args.l) {
-      await MemoAction.showList(this.db);
+      await this.memoAction.showList();
     } else if (args.r) {
-      await MemoAction.showDetail(this.db);
+      await this.memoAction.showDetail();
     } else if (args.d) {
-      await MemoAction.delete(this.db);
+      await this.memoAction.delete();
     } else {
-      await MemoAction.save(this.db);
+      await this.memoAction.save();
     }
+
+    await this.memoAction.finish();
   }
 }
 

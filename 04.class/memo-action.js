@@ -1,8 +1,21 @@
 import readline from "readline";
 import enquirer from "enquirer";
+import MemoDatabase from "./memo-database.js";
 
 export default class MemoAction {
-  static async save(db) {
+  constructor() {
+    this.memoDatabase = new MemoDatabase();
+  }
+
+  async start() {
+    await this.memoDatabase.createTable();
+  }
+
+  async finish() {
+    await this.memoDatabase.close();
+  }
+
+  async save() {
     if (process.stdin.isTTY) {
       console.log("メモを入力してください:");
     }
@@ -19,20 +32,20 @@ export default class MemoAction {
       }
     }
 
-    await db.insert(memo);
+    await this.memoDatabase.insert(memo);
     console.log("メモが保存されました");
   }
 
-  static async showList(db) {
-    const memos = await db.getAll();
+  async showList() {
+    const memos = await this.memoDatabase.getAll();
     this.#checkMemoExistence(memos);
     memos.forEach((memo) => {
       console.log(memo.body.split("\n")[0]);
     });
   }
 
-  static async showDetail(db) {
-    const memos = await db.getAll();
+  async showDetail() {
+    const memos = await this.memoDatabase.getAll();
     this.#checkMemoExistence(memos);
 
     let memoSelection = await this.#select(memos, "show");
@@ -50,8 +63,8 @@ export default class MemoAction {
     console.log(selectedMemo.show.body);
   }
 
-  static async delete(db) {
-    const memos = await db.getAll();
+  async delete() {
+    const memos = await this.memoDatabase.getAll();
     this.#checkMemoExistence(memos);
 
     const memoSelection = await this.#select(memos, "delete");
@@ -65,12 +78,12 @@ export default class MemoAction {
         throw error;
       }
     }
-    await db.delete(selectedMemo.delete.id);
+    await this.memoDatabase.delete(selectedMemo.delete.id);
 
     console.log("メモが削除されました");
   }
 
-  static #input() {
+  #input() {
     return new Promise((resolve, reject) => {
       const rl = readline.createInterface({
         input: process.stdin,
@@ -91,7 +104,7 @@ export default class MemoAction {
     });
   }
 
-  static #checkMemoExistence(memos) {
+  #checkMemoExistence(memos) {
     if (memos.length === 0) {
       console.log("保存されているメモはありません。");
       process.exit(0);
@@ -99,7 +112,7 @@ export default class MemoAction {
     return memos;
   }
 
-  static #select(memos, purpose) {
+  #select(memos, purpose) {
     return {
       type: "select",
       name: purpose,
