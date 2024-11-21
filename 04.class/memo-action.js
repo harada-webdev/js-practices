@@ -6,8 +6,8 @@ export default class MemoAction {
     if (process.stdin.isTTY) {
       console.log("メモを入力してください:");
     }
-    let memo;
 
+    let memo;
     try {
       memo = await this.#input();
     } catch (err) {
