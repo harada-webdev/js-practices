@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import minimist from "minimist";
-import MemoDatabase from "./memo-database.js";
 import MemoAction from "./memo-action.js";
+import MemoDatabase from "./memo-database.js";
 
 class Memo {
   constructor() {

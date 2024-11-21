@@ -19,7 +19,7 @@ export default class MemoAction {
       }
     }
 
-    await db.run("INSERT INTO memos (body) VALUES (?)", memo);
+    await db.insert(memo);
     console.log("メモが保存されました");
   }
 
@@ -59,7 +59,7 @@ export default class MemoAction {
         throw error;
       }
     }
-    await db.run("DELETE FROM memos WHERE id = ?", selectedMemo.delete.id);
+    await db.delete(selectedMemo.delete.id);
     console.log("メモが削除されました");
   }
 
@@ -85,7 +85,7 @@ export default class MemoAction {
   }
 
   static async #getAll(db) {
-    const memos = await db.getAll("SELECT * FROM memos ORDER BY id");
+    const memos = await db.getAll();
     if (memos.length === 0) {
       console.log("保存されているメモはありません。");
       process.exit(0);

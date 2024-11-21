@@ -6,24 +6,28 @@ export default class MemoDatabase {
   }
 
   async createTable() {
-    await this.run(
+    await this.#runPromise(
       "CREATE TABLE IF NOT EXISTS memos (id INTEGER PRIMARY KEY AUTOINCREMENT, body TEXT NOT NULL)",
     );
   }
 
-  close() {
-    return new Promise((resolve, reject) => {
-      this.db.close((err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(this);
-        }
-      });
-    });
+  async insert(params) {
+    await this.#runPromise("INSERT INTO memos (body) VALUES (?)", params);
   }
 
-  run(query, params) {
+  async delete(params) {
+    await this.#runPromise("DELETE FROM memos WHERE id = ?", params);
+  }
+
+  async getAll() {
+    return await this.#getAllPromise("SELECT * FROM memos ORDER BY id");
+  }
+
+  async close() {
+    return await this.#closePromise();
+  }
+
+  #runPromise(query, params) {
     return new Promise((resolve, reject) => {
       this.db.run(query, params, (err) => {
         if (err) {
@@ -35,13 +39,25 @@ export default class MemoDatabase {
     });
   }
 
-  getAll(query, params) {
+  #getAllPromise(query, params) {
     return new Promise((resolve, reject) => {
       this.db.all(query, params, (err, records) => {
         if (err) {
           reject(err);
         } else {
           resolve(records);
+        }
+      });
+    });
+  }
+
+  #closePromise() {
+    return new Promise((resolve, reject) => {
+      this.db.close((err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(this);
         }
       });
     });
