@@ -24,14 +24,17 @@ export default class MemoAction {
   }
 
   static async showList(db) {
-    const memos = await this.#getAll(db);
+    const memos = await db.getAll();
+    this.#checkMemoExistence(memos);
     memos.forEach((memo) => {
       console.log(memo.body.split("\n")[0]);
     });
   }
 
   static async showDetail(db) {
-    const memos = await this.#getAll(db);
+    const memos = await db.getAll();
+    this.#checkMemoExistence(memos);
+
     let memoSelection = await this.#selection(memos, "show");
     let selectedMemo = "";
     try {
@@ -43,11 +46,14 @@ export default class MemoAction {
         throw error;
       }
     }
+
     console.log(selectedMemo.show.body);
   }
 
   static async delete(db) {
-    const memos = await this.#getAll(db);
+    const memos = await db.getAll();
+    this.#checkMemoExistence(memos);
+
     const memoSelection = await this.#selection(memos, "delete");
     let selectedMemo = "";
     try {
@@ -60,6 +66,7 @@ export default class MemoAction {
       }
     }
     await db.delete(selectedMemo.delete.id);
+
     console.log("メモが削除されました");
   }
 
@@ -84,8 +91,7 @@ export default class MemoAction {
     });
   }
 
-  static async #getAll(db) {
-    const memos = await db.getAll();
+  static #checkMemoExistence(memos) {
     if (memos.length === 0) {
       console.log("保存されているメモはありません。");
       process.exit(0);
