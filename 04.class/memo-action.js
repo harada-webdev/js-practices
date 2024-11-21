@@ -35,7 +35,7 @@ export default class MemoAction {
     const memos = await db.getAll();
     this.#checkMemoExistence(memos);
 
-    let memoSelection = await this.#selection(memos, "show");
+    let memoSelection = await this.#select(memos, "show");
     let selectedMemo = "";
     try {
       selectedMemo = await enquirer.prompt(memoSelection);
@@ -54,7 +54,7 @@ export default class MemoAction {
     const memos = await db.getAll();
     this.#checkMemoExistence(memos);
 
-    const memoSelection = await this.#selection(memos, "delete");
+    const memoSelection = await this.#select(memos, "delete");
     let selectedMemo = "";
     try {
       selectedMemo = await enquirer.prompt(memoSelection);
@@ -99,7 +99,7 @@ export default class MemoAction {
     return memos;
   }
 
-  static #selection(memos, purpose) {
+  static #select(memos, purpose) {
     return {
       type: "select",
       name: purpose,
