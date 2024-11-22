@@ -29,7 +29,7 @@ export default class MemoDatabase {
 
   #runPromise(query, params) {
     return new Promise((resolve, reject) => {
-      this.db.run(query, params, (err) => {
+      this.db.run(query, params, function (err) {
         if (err) {
           reject(err);
         } else {
