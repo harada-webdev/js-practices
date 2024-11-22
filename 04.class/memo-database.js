@@ -1,8 +1,10 @@
 import sqlite3 from "sqlite3";
 
 export default class MemoDatabase {
+  #db;
+
   constructor() {
-    this.db = new sqlite3.Database("memo.db");
+    this.#db = new sqlite3.Database("memo.db");
   }
 
   async createTable() {
@@ -29,7 +31,7 @@ export default class MemoDatabase {
 
   #runPromise(query, params) {
     return new Promise((resolve, reject) => {
-      this.db.run(query, params, function (err) {
+      this.#db.run(query, params, function (err) {
         if (err) {
           reject(err);
         } else {
@@ -41,7 +43,7 @@ export default class MemoDatabase {
 
   #getAllPromise(query) {
     return new Promise((resolve, reject) => {
-      this.db.all(query, (err, records) => {
+      this.#db.all(query, (err, records) => {
         if (err) {
           reject(err);
         } else {
@@ -53,7 +55,7 @@ export default class MemoDatabase {
 
   #closePromise() {
     return new Promise((resolve, reject) => {
-      this.db.close((err) => {
+      this.#db.close((err) => {
         if (err) {
           reject(err);
         } else {

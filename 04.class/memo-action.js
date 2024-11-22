@@ -3,16 +3,18 @@ import enquirer from "enquirer";
 import MemoDatabase from "./memo-database.js";
 
 export default class MemoAction {
+  #memoDatabase;
+
   constructor() {
-    this.memoDatabase = new MemoDatabase();
+    this.#memoDatabase = new MemoDatabase();
   }
 
   async start() {
-    await this.memoDatabase.createTable();
+    await this.#memoDatabase.createTable();
   }
 
   async finish() {
-    await this.memoDatabase.close();
+    await this.#memoDatabase.close();
   }
 
   async save() {
@@ -32,12 +34,12 @@ export default class MemoAction {
       }
     }
 
-    await this.memoDatabase.insert(memo);
+    await this.#memoDatabase.insert(memo);
     console.log("メモが保存されました");
   }
 
   async showList() {
-    const memos = await this.memoDatabase.getAll();
+    const memos = await this.#memoDatabase.getAll();
     this.#checkMemoExistence(memos);
     memos.forEach((memo) => {
       console.log(memo.body.split("\n")[0]);
@@ -45,7 +47,7 @@ export default class MemoAction {
   }
 
   async showDetail() {
-    const memos = await this.memoDatabase.getAll();
+    const memos = await this.#memoDatabase.getAll();
     this.#checkMemoExistence(memos);
 
     let memoSelection = await this.#select(memos, "show");
@@ -64,7 +66,7 @@ export default class MemoAction {
   }
 
   async delete() {
-    const memos = await this.memoDatabase.getAll();
+    const memos = await this.#memoDatabase.getAll();
     this.#checkMemoExistence(memos);
 
     const memoSelection = await this.#select(memos, "delete");
@@ -78,7 +80,7 @@ export default class MemoAction {
         throw error;
       }
     }
-    await this.memoDatabase.delete(selectedMemo.delete.id);
+    await this.#memoDatabase.delete(selectedMemo.delete.id);
 
     console.log("メモが削除されました");
   }
