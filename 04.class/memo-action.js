@@ -42,7 +42,7 @@ export default class MemoAction {
     const memos = await this.#memoDatabase.getAll();
     this.#checkMemoExistence(memos);
     memos.forEach((memo) => {
-      console.log(memo.body.split("\n")[0]);
+      console.log(memo.body.split("\n")[0] || "無題");
     });
   }
 
