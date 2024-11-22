@@ -57,7 +57,7 @@ export default class MemoDatabase {
         if (err) {
           reject(err);
         } else {
-          resolve(this);
+          resolve();
         }
       });
     });
