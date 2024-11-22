@@ -34,7 +34,7 @@ export default class MemoAction {
       }
     }
 
-    await this.#memoDatabase.insert(memo);
+    await this.#memoDatabase.insert(memo.join("\n"));
     console.log("メモが保存されました");
   }
 
@@ -90,14 +90,14 @@ export default class MemoAction {
       const rl = readline.createInterface({
         input: process.stdin,
       });
-      let memo = "";
+      let memo = [];
 
       rl.on("line", (input) => {
-        memo += input + "\n";
+        memo.push(input);
       });
 
       rl.on("close", () => {
-        if (memo.trim() === "") {
+        if (memo.every((line) => line.trim() === "")) {
           reject(new Error("エラー: メモが何も入力されませんでした"));
         } else {
           resolve(memo);
