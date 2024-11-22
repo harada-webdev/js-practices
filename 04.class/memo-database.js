@@ -39,9 +39,9 @@ export default class MemoDatabase {
     });
   }
 
-  #getAllPromise(query, params) {
+  #getAllPromise(query) {
     return new Promise((resolve, reject) => {
-      this.db.all(query, params, (err, records) => {
+      this.db.all(query, (err, records) => {
         if (err) {
           reject(err);
         } else {
