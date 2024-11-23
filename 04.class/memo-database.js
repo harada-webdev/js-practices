@@ -31,9 +31,9 @@ export default class MemoDatabase {
 
   #runPromise(query, params) {
     return new Promise((resolve, reject) => {
-      this.#db.run(query, params, function (err) {
-        if (err) {
-          reject(err);
+      this.#db.run(query, params, function (error) {
+        if (error) {
+          reject(error);
         } else {
           resolve(this);
         }
@@ -43,9 +43,9 @@ export default class MemoDatabase {
 
   #getAllPromise(query) {
     return new Promise((resolve, reject) => {
-      this.#db.all(query, (err, records) => {
-        if (err) {
-          reject(err);
+      this.#db.all(query, (error, records) => {
+        if (error) {
+          reject(error);
         } else {
           resolve(records);
         }
@@ -55,9 +55,9 @@ export default class MemoDatabase {
 
   #closePromise() {
     return new Promise((resolve, reject) => {
-      this.#db.close((err) => {
-        if (err) {
-          reject(err);
+      this.#db.close((error) => {
+        if (error) {
+          reject(error);
         } else {
           resolve();
         }

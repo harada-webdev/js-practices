@@ -25,12 +25,12 @@ export default class MemoAction {
     let memo;
     try {
       memo = await this.#input();
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error(err.message);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
         process.exit(1);
       } else {
-        throw err;
+        throw error;
       }
     }
 
