@@ -90,17 +90,17 @@ export default class MemoAction {
       const rl = readline.createInterface({
         input: process.stdin,
       });
-      let memo = [];
+      let memoLines = [];
 
       rl.on("line", (input) => {
-        memo.push(input);
+        memoLines.push(input);
       });
 
       rl.on("close", () => {
-        if (memo.every((line) => line.trim() === "")) {
+        if (memoLines.every((line) => line.trim() === "")) {
           reject(new Error("エラー: メモが何も入力されませんでした"));
         } else {
-          resolve(memo);
+          resolve(memoLines);
         }
       });
     });
