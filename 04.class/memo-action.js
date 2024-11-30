@@ -120,10 +120,7 @@ export default class MemoAction {
     return {
       type: "select",
       name: purpose,
-      message:
-        purpose === "show"
-          ? "表示するメモを選んでください"
-          : "削除するメモを選んでください",
+      message: this.#showMessage(purpose),
       choices: memos.map((memo) => ({
         message: memo.body.split("\n")[0] || "無題",
         name: memo.body.split("\n")[0] || "無題",
@@ -136,5 +133,13 @@ export default class MemoAction {
         return this.focused.value;
       },
     };
+  }
+
+  #showMessage(purpose) {
+    if (purpose === "show") {
+      return "表示するメモを選んでください";
+    } else if (purpose === "delete") {
+      return "削除するメモを選んでください";
+    }
   }
 }
