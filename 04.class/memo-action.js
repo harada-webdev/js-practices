@@ -40,7 +40,11 @@ export default class MemoAction {
 
   async showList() {
     const memos = await this.#memoDatabase.getAll();
-    this.#checkMemoExistence(memos);
+    if (memos.length === 0) {
+      console.log("保存されているメモはありません。");
+      process.exit(0);
+    }
+
     memos.forEach((memo) => {
       console.log(memo.body.split("\n")[0] || "無題");
     });
@@ -48,7 +52,10 @@ export default class MemoAction {
 
   async showDetail() {
     const memos = await this.#memoDatabase.getAll();
-    this.#checkMemoExistence(memos);
+    if (memos.length === 0) {
+      console.log("保存されているメモはありません。");
+      process.exit(0);
+    }
 
     const memoSelection = this.#getMemoSelection(memos, "show");
     let selectedMemo;
@@ -67,7 +74,10 @@ export default class MemoAction {
 
   async delete() {
     const memos = await this.#memoDatabase.getAll();
-    this.#checkMemoExistence(memos);
+    if (memos.length === 0) {
+      console.log("保存されているメモはありません。");
+      process.exit(0);
+    }
 
     const memoSelection = this.#getMemoSelection(memos, "delete");
     let selectedMemo;
@@ -104,14 +114,6 @@ export default class MemoAction {
         }
       });
     });
-  }
-
-  #checkMemoExistence(memos) {
-    if (memos.length === 0) {
-      console.log("保存されているメモはありません。");
-      process.exit(0);
-    }
-    return memos;
   }
 
   #getMemoSelection(memos, purpose) {
