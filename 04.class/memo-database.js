@@ -13,8 +13,8 @@ export default class MemoDatabase {
     );
   }
 
-  async insert(params) {
-    await this.#runPromise("INSERT INTO memos (body) VALUES (?)", params);
+  async insert(body) {
+    await this.#runPromise("INSERT INTO memos (body) VALUES (?)", body);
   }
 
   async delete(params) {
