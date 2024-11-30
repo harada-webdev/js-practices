@@ -3,7 +3,7 @@
 import minimist from "minimist";
 import MemoAction from "./memo-action.js";
 
-class Memo {
+class MemoApp {
   #memoAction;
 
   constructor() {
@@ -28,4 +28,4 @@ class Memo {
   }
 }
 
-await new Memo().run();
+await new MemoApp().run();
