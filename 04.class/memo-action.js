@@ -51,7 +51,7 @@ export default class MemoAction {
     this.#checkMemoExistence(memos);
 
     const memoSelection = this.#getMemoSelection(memos, "show");
-    let selectedMemo = "";
+    let selectedMemo;
     try {
       selectedMemo = await enquirer.prompt(memoSelection);
     } catch (error) {
@@ -70,7 +70,7 @@ export default class MemoAction {
     this.#checkMemoExistence(memos);
 
     const memoSelection = this.#getMemoSelection(memos, "delete");
-    let selectedMemo = "";
+    let selectedMemo;
     try {
       selectedMemo = await enquirer.prompt(memoSelection);
     } catch (error) {
