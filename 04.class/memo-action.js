@@ -128,7 +128,7 @@ export default class MemoAction {
         value: memo,
       })),
       footer() {
-        return "\n" + memos[this.index].body;
+        return `\n${memos[this.index].body}`;
       },
       result() {
         return this.focused.value;
