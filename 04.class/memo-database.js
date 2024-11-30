@@ -17,8 +17,8 @@ export default class MemoDatabase {
     await this.#runPromise("INSERT INTO memos (body) VALUES (?)", body);
   }
 
-  async delete(params) {
-    await this.#runPromise("DELETE FROM memos WHERE id = ?", params);
+  async delete(id) {
+    await this.#runPromise("DELETE FROM memos WHERE id = ?", id);
   }
 
   async getAll() {
