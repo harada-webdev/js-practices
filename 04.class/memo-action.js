@@ -24,7 +24,7 @@ export default class MemoAction {
 
     let memo;
     try {
-      memo = await this.#inputByUser();
+      memo = await this.#getUserInput();
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -95,7 +95,7 @@ export default class MemoAction {
     console.log("メモが削除されました");
   }
 
-  #inputByUser() {
+  #getUserInput() {
     return new Promise((resolve, reject) => {
       const rl = readline.createInterface({
         input: process.stdin,
