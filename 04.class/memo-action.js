@@ -46,7 +46,7 @@ export default class MemoAction {
     }
 
     memos.forEach((memo) => {
-      console.log(memo.body.split("\n")[0] || "無題");
+      console.log(this.#getMemoTitle(memo));
     });
   }
 
@@ -122,8 +122,8 @@ export default class MemoAction {
       name: purpose,
       message: this.#showMessage(purpose),
       choices: memos.map((memo) => ({
-        message: memo.body.split("\n")[0] || "無題",
-        name: memo.body.split("\n")[0] || "無題",
+        message: this.#getMemoTitle(memo),
+        name: this.#getMemoTitle(memo),
         value: memo,
       })),
       footer() {
@@ -141,5 +141,9 @@ export default class MemoAction {
     } else if (purpose === "delete") {
       return "削除するメモを選んでください";
     }
+  }
+
+  #getMemoTitle(memo) {
+    return memo.body.split("\n")[0] || "無題";
   }
 }
