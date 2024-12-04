@@ -1,9 +1,7 @@
-#!/usr/bin/env node
-
 import minimist from "minimist";
 import MemoAction from "./memo-action.js";
 
-class MemoApp {
+export default class MemoApp {
   #memoAction;
 
   constructor() {
@@ -27,5 +25,3 @@ class MemoApp {
     await this.#memoAction.finish();
   }
 }
-
-await new MemoApp().run();
