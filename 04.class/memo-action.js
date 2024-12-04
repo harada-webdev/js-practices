@@ -28,7 +28,7 @@ export default class MemoAction {
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
-        process.exit(1);
+        return;
       } else {
         throw error;
       }
@@ -63,7 +63,7 @@ export default class MemoAction {
       selectedMemo = await enquirer.prompt(memoSelection);
     } catch (error) {
       if (error === "") {
-        process.exit(130);
+        return;
       } else {
         throw error;
       }
@@ -85,7 +85,7 @@ export default class MemoAction {
       selectedMemo = await enquirer.prompt(memoSelection);
     } catch (error) {
       if (error === "") {
-        process.exit(130);
+        return;
       } else {
         throw error;
       }
