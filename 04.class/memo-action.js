@@ -42,7 +42,7 @@ export default class MemoAction {
     const memos = await this.#memoDatabase.getAll();
     if (memos.length === 0) {
       console.log("保存されているメモはありません。");
-      process.exit(0);
+      return;
     }
 
     memos.forEach((memo) => {
@@ -54,7 +54,7 @@ export default class MemoAction {
     const memos = await this.#memoDatabase.getAll();
     if (memos.length === 0) {
       console.log("保存されているメモはありません。");
-      process.exit(0);
+      return;
     }
 
     const memoSelection = this.#getMemoSelection(memos, "show");
@@ -76,7 +76,7 @@ export default class MemoAction {
     const memos = await this.#memoDatabase.getAll();
     if (memos.length === 0) {
       console.log("保存されているメモはありません。");
-      process.exit(0);
+      return;
     }
 
     const memoSelection = this.#getMemoSelection(memos, "delete");
