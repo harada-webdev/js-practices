@@ -120,7 +120,7 @@ export default class MemoAction {
     return {
       type: "select",
       name: purpose,
-      message: this.#getMessage(purpose),
+      message: this.#getInstructionMessage(purpose),
       choices: memos.map((memo) => ({
         message: this.#getMemoTitle(memo),
         name: this.#getMemoTitle(memo),
@@ -135,7 +135,7 @@ export default class MemoAction {
     };
   }
 
-  #getMessage(purpose) {
+  #getInstructionMessage(purpose) {
     if (purpose === "show") {
       return "表示するメモを選んでください";
     } else if (purpose === "delete") {
