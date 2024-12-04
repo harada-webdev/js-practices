@@ -26,7 +26,7 @@ export default class MemoDatabase {
   }
 
   async close() {
-    return await this.#closePromise();
+    await this.#closePromise();
   }
 
   #runPromise(query, params) {
