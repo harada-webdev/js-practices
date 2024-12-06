@@ -13,8 +13,9 @@ export default class MemoAction {
     await this.#memoDatabase.createTable();
   }
 
-  async finish() {
+  async finish(exitStatus = 0) {
     await this.#memoDatabase.close();
+    process.exit(exitStatus);
   }
 
   async save() {
@@ -22,21 +23,24 @@ export default class MemoAction {
       console.log("メモを入力してください:");
     }
 
+    let exitStatus;
     let memo;
     try {
       memo = await this.#getUserInput();
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
-        await this.finish();
-        process.exit(1);
+        exitStatus = 1;
       } else {
         throw error;
       }
+    } finally {
+      if (memo) {
+        await this.#memoDatabase.insert(memo.join("\n"));
+        console.log("メモが保存されました");
+      }
+      await this.finish(exitStatus);
     }
-
-    await this.#memoDatabase.insert(memo.join("\n"));
-    console.log("メモが保存されました");
   }
 
   async showList() {
@@ -60,18 +64,22 @@ export default class MemoAction {
 
     const memoSelection = this.#getMemoSelection(memos, "show");
     let selectedMemo;
+    let exitStatus;
     try {
       selectedMemo = await enquirer.prompt(memoSelection);
     } catch (error) {
       if (error === "") {
-        await this.finish();
-        process.exit(130);
+        console.error("強制終了しました");
+        exitStatus = 130;
       } else {
         throw error;
       }
+    } finally {
+      if (selectedMemo) {
+        console.log(selectedMemo.show.body);
+      }
+      await this.finish(exitStatus);
     }
-
-    console.log(selectedMemo.show.body);
   }
 
   async delete() {
@@ -83,19 +91,23 @@ export default class MemoAction {
 
     const memoSelection = this.#getMemoSelection(memos, "delete");
     let selectedMemo;
+    let exitStatus;
     try {
       selectedMemo = await enquirer.prompt(memoSelection);
     } catch (error) {
       if (error === "") {
-        await this.finish();
-        process.exit(130);
+        console.error("強制終了しました");
+        exitStatus = 130;
       } else {
         throw error;
       }
+    } finally {
+      if (selectedMemo) {
+        await this.#memoDatabase.delete(selectedMemo.delete.id);
+        console.log("メモが削除されました");
+      }
+      await this.finish(exitStatus);
     }
-    await this.#memoDatabase.delete(selectedMemo.delete.id);
-
-    console.log("メモが削除されました");
   }
 
   #getUserInput() {
